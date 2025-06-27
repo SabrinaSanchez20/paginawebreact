@@ -1,0 +1,72 @@
+.container {
+  max-width: 900px;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 2.5rem 3rem;
+  margin-top: 2.5rem;
+}
+
+h2 {
+  font-weight: bold;
+  color: #18191a;
+  letter-spacing: 1px;
+}
+
+.text-secondary {
+  color: #555 !important;
+}
+
+input.form-control {
+  background: #f4f4f4;
+  border: 1px solid #e0e0e0;
+  color: #232323;
+  border-radius: 6px;
+}
+
+input.form-control:focus {
+  background: #fff;
+  border-color: #bdbdbd;
+  color: #18191a;
+}
+
+.table {
+  background: #fafafa;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.table th, .table td {
+  color: #232323;
+  vertical-align: middle;
+}
+
+.table-striped > tbody > tr:nth-of-type(odd) {
+  background-color: #f4f4f4;
+}
+
+.btn-outline-dark, .btn-outline-danger {
+  border-radius: 4px;
+  font-weight: 500;
+  transition: background 0.2s, color 0.2s;
+}
+
+.btn-outline-dark:hover, .btn-outline-dark:focus {
+  background: #232323;
+  color: #fff;
+}
+
+.btn-outline-danger:hover, .btn-outline-danger:focus {
+  background: #b71c1c;
+  color: #fff;
+}
+
+.alert-secondary {
+  font-size: 1.1rem;
+  color: #444;
+  background: #f4f4f4;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-top: 2rem;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
