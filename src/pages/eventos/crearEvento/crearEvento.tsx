@@ -1,28 +1,53 @@
 import React, { useState } from "react";
+import { alertaCrear } from "../../../components/alertas/alertaCrear/alertaCrear";
 
 const CrearEvento: React.FC = () => {
   const [nombre, setNombre] = useState("");
   const [fecha, setFecha] = useState("");
   const [descripcion, setDescripcion] = useState("");
+  const [cupos, setCupos] = useState<number>(0);
   const [mensaje, setMensaje] = useState<{ tipo: "success" | "danger"; texto: string } | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nombre.trim() || !fecha.trim() || !descripcion.trim()) {
+    if (!nombre.trim() || !fecha.trim() || !descripcion.trim() || cupos < 1) {
       setMensaje({ tipo: "danger", texto: "Completa todos los campos correctamente." });
-      if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-        window.mostrarAlerta("validacion", "Completa todos los campos correctamente.");
-      }
       return;
     }
-    setMensaje({ tipo: "success", texto: "Evento creado correctamente." });
-    if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-      window.mostrarAlerta("exito", "Evento creado correctamente.");
+
+    let eventosGuardados = [];
+    const localEventos = localStorage.getItem("eventos");
+    if (localEventos) {
+      eventosGuardados = JSON.parse(localEventos);
+    } else {
+      fetch("/src/data/data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          eventosGuardados = data.eventos || [];
+          agregarEvento(eventosGuardados);
+        });
+      return;
     }
+    agregarEvento(eventosGuardados);
+  };
+
+  function agregarEvento(eventosGuardados: any[]) {
+    const nuevoEvento = {
+      id: eventosGuardados.length > 0 ? eventosGuardados[eventosGuardados.length - 1].id + 1 : 1,
+      nombre,
+      fecha,
+      descripcion,
+      cupos
+    };
+    eventosGuardados.push(nuevoEvento);
+    localStorage.setItem("eventos", JSON.stringify(eventosGuardados));
+    setMensaje({ tipo: "success", texto: "Evento creado correctamente." });
+    alertaCrear();
     setNombre("");
     setFecha("");
     setDescripcion("");
-  };
+    setCupos(0);
+  }
 
   return (
     <div className="container py-5">
@@ -50,6 +75,21 @@ const CrearEvento: React.FC = () => {
               required
             />
           </div>
+        </div>
+        <div className="row g-3 mt-3">
+          <div className="col-md-6">
+            <label className="form-label">Cupos</label>
+            <input
+              type="number"
+              className="form-control"
+              value={cupos}
+              min={1}
+              onChange={(e) => setCupos(Number(e.target.value))}
+              placeholder="Cantidad de cupos"
+              required
+            />
+          </div>
+          <div className="col-md-6"></div>
         </div>
         <div className="row g-3 mt-3">
           <div className="col-12">

@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const opcionesEventos = [
   { value: "", label: "Por favor elige un evento" },
@@ -10,24 +11,63 @@ const opcionesEventos = [
 ];
 
 const EditarInscripcion: React.FC = () => {
-  const [nombre, setNombre] = useState("Juan Pérez");
-  const [evento, setEvento] = useState("taller-react");
+  const [nombre, setNombre] = useState("");
+  const [evento, setEvento] = useState("");
   const [mensaje, setMensaje] = useState<{ tipo: "success" | "danger"; texto: string } | null>(null);
+  const [inscripcionId, setInscripcionId] = useState<number | null>(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Leer la inscripción seleccionada de localStorage
+    const inscripcionSeleccionada = localStorage.getItem("inscripcionSeleccionada");
+    if (inscripcionSeleccionada) {
+      const inscripcion = JSON.parse(inscripcionSeleccionada);
+      setInscripcionId(Number(inscripcion.id));
+      setNombre(inscripcion.nombre);
+      setEvento(inscripcion.evento);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!nombre.trim() || !evento.trim()) {
       setMensaje({ tipo: "danger", texto: "Completa todos los campos correctamente." });
-      if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-        window.mostrarAlerta("validacion", "Completa todos los campos correctamente.");
-      }
       return;
     }
-    setMensaje({ tipo: "success", texto: "Inscripción editada correctamente." });
-    if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-      window.mostrarAlerta("exito", "Inscripción editada correctamente.");
+
+    let inscripcionesGuardadas: any[] = [];
+    const localInscripciones = localStorage.getItem("inscripciones");
+    if (localInscripciones) {
+      inscripcionesGuardadas = JSON.parse(localInscripciones);
+      actualizarInscripcion(inscripcionesGuardadas);
+    } else {
+      fetch("/src/data/data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          inscripcionesGuardadas = data.inscripciones || [];
+          actualizarInscripcion(inscripcionesGuardadas);
+        });
     }
   };
+
+  function actualizarInscripcion(inscripcionesGuardadas: any[]) {
+    if (inscripcionId == null) return;
+    const index = inscripcionesGuardadas.findIndex((ins) => Number(ins.id) === inscripcionId);
+    if (index !== -1) {
+      inscripcionesGuardadas[index] = {
+        ...inscripcionesGuardadas[index],
+        nombre,
+        evento
+      };
+      localStorage.setItem("inscripciones", JSON.stringify(inscripcionesGuardadas));
+      setMensaje({ tipo: "success", texto: "Inscripción editada correctamente." });
+      setTimeout(() => {
+        navigate("/inscripciones");
+      }, 1200);
+    } else {
+      setMensaje({ tipo: "danger", texto: "No se encontró la inscripción a editar." });
+    }
+  }
 
   return (
     <div className="container py-5">

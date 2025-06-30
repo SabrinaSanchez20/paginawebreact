@@ -1,17 +1,42 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { alertaEliminar } from "../../components/alertas/alertaEliminar/alertaEliminar";
 
 interface Evento {
   id: number;
   nombre: string;
   fecha: string;
+  descripcion?: string;
   cupos: number;
 }
 
 const EventosPage: React.FC = () => {
-  const [eventos] = useState<Evento[]>([
-  ]);
+  const [eventos, setEventos] = useState<Evento[]>([]);
   const [busqueda, setBusqueda] = useState("");
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const localEventos = localStorage.getItem("eventos");
+    if (localEventos) {
+      setEventos(JSON.parse(localEventos));
+    } else {
+      fetch("/src/data/data.json")
+        .then((res) => res.json())
+        .then((data) => setEventos(data.eventos || []));
+    }
+  }, []);
+
+  const handleEliminar = (id: number) => {
+    alertaEliminar(() => {
+      const nuevosEventos = eventos.filter((evento) => evento.id !== id);
+      setEventos(nuevosEventos);
+      localStorage.setItem("eventos", JSON.stringify(nuevosEventos));
+    });
+  };
+
+  const handleMostrar = (evento: Evento) => {
+    navigate(`/mostrarEvento/${evento.id}`);
+  };
 
   const eventosFiltrados = eventos.filter(
     (evento) =>
@@ -59,24 +84,24 @@ const EventosPage: React.FC = () => {
                   <td>{evento.fecha}</td>
                   <td>{evento.cupos}</td>
                   <td>
-                    <Link
-                      to="/mostrarEvento"
+                    <button
                       className="btn btn-sm btn-info me-2"
+                      onClick={() => handleMostrar(evento)}
                     >
                       Mostrar
-                    </Link>
+                    </button>
                     <Link
                       to="/editarEvento"
                       className="btn btn-sm btn-warning me-2"
                     >
                       Editar
                     </Link>
-                    <Link
-                      to="/eliminarEvento"
+                    <button
                       className="btn btn-sm btn-danger"
+                      onClick={() => handleEliminar(evento.id)}
                     >
                       Eliminar
-                    </Link>
+                    </button>
                   </td>
                 </tr>
               ))}
@@ -84,8 +109,11 @@ const EventosPage: React.FC = () => {
           </table>
         </div>
       )}
+      <Link to="/inscripciones" className="btn btn-secondary mt-4">
+        Volver a Inscripciones
+      </Link> 
     </div>
   );
-};
+}
 
 export default EventosPage;

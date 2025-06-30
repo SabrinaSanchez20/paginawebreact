@@ -1,0 +1,10 @@
+.swal2-popup.swal2-modal.swal2-show {
+  border-radius: 16px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  box-shadow: 0 8px 32px rgba(25, 135, 84, 0.15); /* verde */
+}
+
+.swal2-icon.swal2-success {
+  border-color: #198754;
+  color: #198754;
+}

@@ -1,0 +1,18 @@
+{
+  "eventos": [
+    {
+      "id": 0,
+      "nombre": "",
+      "fecha": "",
+      "descripcion": "",
+      "cupos": 0
+    }
+  ],
+  "inscripciones": [
+    {
+      "id": 0,
+      "nombre": "",
+      "evento": ""
+    }
+  ]
+}

@@ -1,0 +1,21 @@
+.swal2-popup.swal2-modal {
+  border-radius: 16px;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  box-shadow: 0 8px 32px rgba(220, 53, 69, 0.15);
+}
+
+.swal2-icon.swal2-warning {
+  border-color: #dc3545;
+  color: #dc3545;
+}
+
+.swal2-cancel {
+  background-color: #6c757d !important;
+  border: none !important;
+  font-weight: bold;
+}
+
+.swal2-confirm:focus,
+.swal2-cancel:focus {
+  box-shadow: 0 0 0 2px rgba(220, 53, 69, 0.2);
+}

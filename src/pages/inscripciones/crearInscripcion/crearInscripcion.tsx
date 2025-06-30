@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { alertaCrear } from "../../../components/alertas/alertaCrear/alertaCrear";
 
 const opcionesEventos = [
   { value: "", label: "Por favor elige un evento" },
@@ -18,18 +19,38 @@ const CrearInscripcion: React.FC = () => {
     e.preventDefault();
     if (!nombre.trim() || !evento.trim()) {
       setMensaje({ tipo: "danger", texto: "Completa todos los campos correctamente." });
-      if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-        window.mostrarAlerta("validacion", "Completa todos los campos correctamente.");
-      }
       return;
     }
-    setMensaje({ tipo: "success", texto: "Inscripción creada correctamente." });
-    if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-      window.mostrarAlerta("exito", "Inscripción creada correctamente.");
+
+    let inscripcionesGuardadas = [];
+    const localInscripciones = localStorage.getItem("inscripciones");
+    if (localInscripciones) {
+      inscripcionesGuardadas = JSON.parse(localInscripciones);
+      agregarInscripcion(inscripcionesGuardadas);
+    } else {
+      fetch("/src/data/data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          inscripcionesGuardadas = data.inscripciones || [];
+          agregarInscripcion(inscripcionesGuardadas);
+        });
+      return;
     }
+  };
+
+  function agregarInscripcion(inscripcionesGuardadas: any[]) {
+    const nuevaInscripcion = {
+      id: inscripcionesGuardadas.length > 0 ? inscripcionesGuardadas[inscripcionesGuardadas.length - 1].id + 1 : 1,
+      nombre,
+      evento
+    };
+    inscripcionesGuardadas.push(nuevaInscripcion);
+    localStorage.setItem("inscripciones", JSON.stringify(inscripcionesGuardadas));
+    setMensaje({ tipo: "success", texto: "Inscripción creada correctamente." });
+    alertaCrear();
     setNombre("");
     setEvento("");
-  };
+  }
 
   return (
     <div className="container py-5">

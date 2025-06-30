@@ -1,25 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 const EditarEvento: React.FC = () => {
   const [nombre, setNombre] = useState("Taller de React");
   const [fecha, setFecha] = useState("2025-07-01");
   const [descripcion, setDescripcion] = useState("Un taller práctico de React.");
+  const [cupos, setCupos] = useState<number>(0);
   const [mensaje, setMensaje] = useState<{ tipo: "success" | "danger"; texto: string } | null>(null);
+  const [eventoId, setEventoId] = useState<number | null>(null);
+
+  useEffect(() => {
+    const eventoSeleccionado = localStorage.getItem("eventoSeleccionado");
+    if (eventoSeleccionado) {
+      const evento = JSON.parse(eventoSeleccionado);
+      setEventoId(evento.id);
+      setNombre(evento.nombre);
+      setFecha(evento.fecha);
+      setDescripcion(evento.descripcion);
+      setCupos(evento.cupos ?? 0);
+    }
+  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nombre.trim() || !fecha.trim() || !descripcion.trim()) {
+    if (!nombre.trim() || !fecha.trim() || !descripcion.trim() || cupos < 1) {
       setMensaje({ tipo: "danger", texto: "Completa todos los campos correctamente." });
-      if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-        window.mostrarAlerta("validacion", "Completa todos los campos correctamente.");
-      }
       return;
     }
-    setMensaje({ tipo: "success", texto: "Evento editado correctamente." });
-    if (typeof window !== "undefined" && typeof window.mostrarAlerta === "function") {
-      window.mostrarAlerta("exito", "Evento editado correctamente.");
+
+    let eventosGuardados: any[] = [];
+    const localEventos = localStorage.getItem("eventos");
+    if (localEventos) {
+      eventosGuardados = JSON.parse(localEventos);
+      actualizarEvento(eventosGuardados);
+    } else {
+      fetch("/src/data/data.json")
+        .then((res) => res.json())
+        .then((data) => {
+          eventosGuardados = data.eventos || [];
+          actualizarEvento(eventosGuardados);
+        });
     }
   };
+
+  function actualizarEvento(eventosGuardados: any[]) {
+    if (eventoId == null) return;
+    const index = eventosGuardados.findIndex((ev) => ev.id === eventoId);
+    if (index !== -1) {
+      eventosGuardados[index] = {
+        ...eventosGuardados[index],
+        nombre,
+        fecha,
+        descripcion,
+        cupos
+      };
+      localStorage.setItem("eventos", JSON.stringify(eventosGuardados));
+      setMensaje({ tipo: "success", texto: "Evento editado correctamente." });
+    } else {
+      setMensaje({ tipo: "danger", texto: "No se encontró el evento a editar." });
+    }
+  }
 
   return (
     <div className="container py-5">
@@ -46,6 +85,21 @@ const EditarEvento: React.FC = () => {
               required
             />
           </div>
+        </div>
+        <div className="row g-3 mt-3">
+          <div className="col-md-6">
+            <label className="form-label">Cupos</label>
+            <input
+              type="number"
+              className="form-control"
+              value={cupos}
+              min={1}
+              onChange={(e) => setCupos(Number(e.target.value))}
+              placeholder="Cantidad de cupos"
+              required
+            />
+          </div>
+          <div className="col-md-6"></div>
         </div>
         <div className="row g-3 mt-3">
           <div className="col-12">
