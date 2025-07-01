@@ -1,56 +1,47 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useDataManager } from "../../../hooks/useDataManager";
 import { alertaCrear } from "../../../components/alertas/alertaCrear/alertaCrear";
 
-const opcionesEventos = [
-  { value: "", label: "Por favor elige un evento" },
-  { value: "taller-react", label: "Taller de React" },
-  { value: "seminario-web", label: "Seminario de Desarrollo Web" },
-  { value: "curso-python", label: "Curso de Python" },
-  { value: "workshop-js", label: "Workshop de JavaScript" },
-  { value: "bootcamp-fullstack", label: "Bootcamp Full Stack" },
-];
-
 const CrearInscripcion: React.FC = () => {
-  const [nombre, setNombre] = useState("");
-  const [evento, setEvento] = useState("");
+  const [usuarioId, setUsuarioId] = useState("");
+  const [eventoId, setEventoId] = useState("");
+  const [estado, setEstado] = useState("confirmada");
   const [mensaje, setMensaje] = useState<{ tipo: "success" | "danger"; texto: string } | null>(null);
+  const navigate = useNavigate();
+  const { eventos, usuarios, createInscripcion } = useDataManager();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!nombre.trim() || !evento.trim()) {
+    if (!usuarioId.trim() || !eventoId.trim()) {
       setMensaje({ tipo: "danger", texto: "Completa todos los campos correctamente." });
       return;
     }
 
-    let inscripcionesGuardadas = [];
-    const localInscripciones = localStorage.getItem("inscripciones");
-    if (localInscripciones) {
-      inscripcionesGuardadas = JSON.parse(localInscripciones);
-      agregarInscripcion(inscripcionesGuardadas);
+    const nuevaInscripcion = {
+      usuarioId,
+      eventoId,
+      fechaInscripcion: new Date().toISOString().split('T')[0],
+      estado
+    };
+
+    const success = await createInscripcion(nuevaInscripcion);
+    
+    if (success) {
+      setMensaje({ tipo: "success", texto: "Inscripción creada correctamente." });
+      alertaCrear();
+      // Limpiar formulario
+      setUsuarioId("");
+      setEventoId("");
+      setEstado("confirmada");
+      
+      setTimeout(() => {
+        navigate("/inscripciones");
+      }, 2000);
     } else {
-      fetch("/src/data/data.json")
-        .then((res) => res.json())
-        .then((data) => {
-          inscripcionesGuardadas = data.inscripciones || [];
-          agregarInscripcion(inscripcionesGuardadas);
-        });
-      return;
+      setMensaje({ tipo: "danger", texto: "Error al crear la inscripción." });
     }
   };
-
-  function agregarInscripcion(inscripcionesGuardadas: any[]) {
-    const nuevaInscripcion = {
-      id: inscripcionesGuardadas.length > 0 ? inscripcionesGuardadas[inscripcionesGuardadas.length - 1].id + 1 : 1,
-      nombre,
-      evento
-    };
-    inscripcionesGuardadas.push(nuevaInscripcion);
-    localStorage.setItem("inscripciones", JSON.stringify(inscripcionesGuardadas));
-    setMensaje({ tipo: "success", texto: "Inscripción creada correctamente." });
-    alertaCrear();
-    setNombre("");
-    setEvento("");
-  }
 
   return (
     <div className="container py-5">
@@ -58,33 +49,50 @@ const CrearInscripcion: React.FC = () => {
       <form onSubmit={handleSubmit} className="mb-4">
         <div className="row g-3">
           <div className="col-md-6">
-            <label className="form-label">Nombre del Participante</label>
-            <input
-              type="text"
-              className="form-control"
-              value={nombre}
-              onChange={(e) => setNombre(e.target.value)}
-              placeholder="Ej: Juan Pérez"
-              required
-            />
-          </div>
-          <div className="col-md-6">
-            <label className="form-label" htmlFor="evento-select">
-              Evento de Informática
-            </label>
+            <label className="form-label">Usuario</label>
             <select
-              name="evento"
-              id="evento-select"
               className="form-control"
-              value={evento}
-              onChange={(e) => setEvento(e.target.value)}
+              value={usuarioId}
+              onChange={(e) => setUsuarioId(e.target.value)}
               required
             >
-              {opcionesEventos.map((op) => (
-                <option key={op.value} value={op.value}>
-                  {op.label}
+              <option value="">Seleccionar usuario</option>
+              {usuarios.map((usuario) => (
+                <option key={usuario.id} value={usuario.id}>
+                  {usuario.nombre} - {usuario.email}
                 </option>
               ))}
+            </select>
+          </div>
+          <div className="col-md-6">
+            <label className="form-label">Evento</label>
+            <select
+              className="form-control"
+              value={eventoId}
+              onChange={(e) => setEventoId(e.target.value)}
+              required
+            >
+              <option value="">Seleccionar evento</option>
+              {eventos.map((evento) => (
+                <option key={evento.id} value={evento.id}>
+                  {evento.nombre} - {evento.fecha}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="row g-3 mt-3">
+          <div className="col-md-6">
+            <label className="form-label">Estado</label>
+            <select
+              className="form-control"
+              value={estado}
+              onChange={(e) => setEstado(e.target.value)}
+              required
+            >
+              <option value="confirmada">Confirmada</option>
+              <option value="pendiente">Pendiente</option>
+              <option value="cancelada">Cancelada</option>
             </select>
           </div>
         </div>
@@ -97,11 +105,15 @@ const CrearInscripcion: React.FC = () => {
           {mensaje.texto}
         </div>
       )}
-      <a href="/inscripciones" className="btn btn-secondary mt-3">
+      <button 
+        type="button" 
+        className="btn btn-secondary mt-3"
+        onClick={() => navigate("/inscripciones")}
+      >
         Volver a Inscripciones
-      </a> 
+      </button>
     </div>
   );
-} 
+};
 
 export default CrearInscripcion;
