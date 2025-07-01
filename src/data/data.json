@@ -1,18 +1,128 @@
 {
   "eventos": [
     {
-      "id": 0,
-      "nombre": "",
-      "fecha": "",
-      "descripcion": "",
-      "cupos": 0
+      "nombre": "Workshop de Diseño UX/UI",
+      "fecha": "2025-08-05",
+      "descripcion": "Mejora tus habilidades de diseño con herramientas modernas y metodologías ágiles.",
+      "cupos": 30,
+      "instructor": "Ana Martínez",
+      "duracion": "4 horas",
+      "precio": 120,
+      "categoria": "Diseño",
+      "imagen": "https://www.uandes.cl/wp-content/uploads/2024/03/Taller-IA-generacion-de-imagenes.png",
+      "disponibles": 30,
+      "id": "3"
+    },
+    {
+      "id": "1751343562374",
+      "nombre": "Inteligencia artificial",
+      "fecha": "2026-02-12",
+      "descripcion": "Es un evento de inteligencia artificial",
+      "cupos": 30,
+      "instructor": "Xavier Liberona",
+      "duracion": "10 horas",
+      "precio": 13000,
+      "categoria": "Programación",
+      "imagen": "https://www.uandes.cl/wp-content/uploads/2024/03/Taller-IA-generacion-de-imagenes.png",
+      "disponibles": 30
     }
   ],
   "inscripciones": [
     {
-      "id": 0,
-      "nombre": "",
-      "evento": ""
+      "id": "1751345564753",
+      "usuarioId": "1751254676299",
+      "eventoId": "3",
+      "fechaInscripcion": "2025-07-01",
+      "estado": "confirmada"
+    },
+    {
+      "id": "1751345669082",
+      "usuarioId": 1751345663913,
+      "eventoId": "1751343562374",
+      "fechaInscripcion": "2025-07-01",
+      "estado": "confirmada"
+    }
+  ],
+  "solicitudesDesinscripcion": [
+    {
+      "id": "1751345469882",
+      "inscripcionId": "3358",
+      "usuarioId": "1751254676299",
+      "eventoId": "3",
+      "motivo": "sdsasd",
+      "fechaSolicitud": "2025-07-01",
+      "estado": "aprobada"
+    },
+    {
+      "id": "1751345577610",
+      "inscripcionId": "1751345563345",
+      "usuarioId": "1751254676299",
+      "eventoId": "1751343562374",
+      "motivo": "sdasdasd",
+      "fechaSolicitud": "2025-07-01",
+      "estado": "aprobada"
+    },
+    {
+      "id": "1751345581275",
+      "inscripcionId": "1751345564753",
+      "usuarioId": "1751254676299",
+      "eventoId": "3",
+      "motivo": "sdasdasd",
+      "fechaSolicitud": "2025-07-01",
+      "estado": "rechazada"
+    }
+  ],
+  "usuarios": [
+    {
+      "id": "1",
+      "nombre": "Administrador",
+      "email": "admin@eventhub.com",
+      "password": "admin123",
+      "telefono": "+1 555-0100",
+      "isAdmin": true,
+      "fechaRegistro": "2025-01-01"
+    },
+    {
+      "id": "2",
+      "nombre": "Juan Pérez",
+      "email": "juan@email.com",
+      "password": "user123",
+      "telefono": "+1 555-0101",
+      "isAdmin": false,
+      "fechaRegistro": "2025-06-15"
+    },
+    {
+      "id": "3",
+      "nombre": "Laura Silva",
+      "email": "laura@email.com",
+      "password": "user123",
+      "telefono": "+1 555-0102",
+      "isAdmin": false,
+      "fechaRegistro": "2025-06-20"
+    },
+    {
+      "id": "1751254676299",
+      "nombre": "xavier liberona ",
+      "email": "xavirc03@gmail.com",
+      "telefono": "931361707",
+      "password": "Mateo1005#",
+      "isAdmin": false
+    },
+    {
+      "id": "1751266574910",
+      "nombre": "sabrina",
+      "email": "sabri@gmail.com",
+      "telefono": "931361707",
+      "password": "sabrina",
+      "isAdmin": false
+    },
+    {
+      "id": 1751345663913,
+      "nombre": "usuariodeprueba",
+      "email": "pruebauser1@gmail.com",
+      "telefono": "",
+      "password": "Mateo1005#",
+      "isAdmin": false
     }
   ]
 }

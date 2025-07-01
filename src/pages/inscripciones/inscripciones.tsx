@@ -1,59 +1,70 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDataManager } from "../../hooks/useDataManager";
 import { alertaEliminar } from "../../components/alertas/alertaEliminar/alertaEliminar";
 
-interface Inscripcion {
-  id: number;
-  nombre: string;
-  evento: string;
-}
-
-const opcionesEventos = [
-  { value: "", label: "Por favor elige un evento" },
-  { value: "taller-react", label: "Taller de React" },
-  { value: "seminario-web", label: "Seminario de Desarrollo Web" },
-  { value: "curso-python", label: "Curso de Python" },
-  { value: "workshop-js", label: "Workshop de JavaScript" },
-  { value: "bootcamp-fullstack", label: "Bootcamp Full Stack" },
-];
-
 const InscripcionesPage: React.FC = () => {
-  const [inscripciones, setInscripciones] = useState<Inscripcion[]>([]);
   const [busqueda, setBusqueda] = useState("");
   const navigate = useNavigate();
+  const { inscripciones, eventos, usuarios, deleteInscripcion, loading, error } = useDataManager();
 
-  useEffect(() => {
-    const localInscripciones = localStorage.getItem("inscripciones");
-    if (localInscripciones) {
-      setInscripciones(JSON.parse(localInscripciones));
-    } else {
-      fetch("/src/data/data.json")
-        .then((res) => res.json())
-        .then((data) => setInscripciones(data.inscripciones || []));
-    }
-  }, []);
-
-  const handleEliminar = (id: number) => {
-    alertaEliminar(() => {
-      const nuevasInscripciones = inscripciones.filter((insc) => insc.id !== id);
-      setInscripciones(nuevasInscripciones);
-      localStorage.setItem("inscripciones", JSON.stringify(nuevasInscripciones));
+  const handleEliminar = (id: number | string) => {
+    alertaEliminar(async () => {
+      await deleteInscripcion(id);
     });
   };
 
-  const handleMostrar = (insc: Inscripcion) => {
-    navigate(`/mostrarInscripcion/${insc.id}`);
+  const handleMostrar = (inscripcion: any) => {
+    navigate(`/mostrarInscripcion/${inscripcion.id}`);
   };
 
-  const handleEditar = (insc: Inscripcion) => {
-    localStorage.setItem("inscripcionSeleccionada", JSON.stringify(insc));
-    navigate("/editarInscripcion");
+  const handleEditar = (inscripcion: any) => {
+    navigate(`/editarInscripcion/${inscripcion.id}`);
+  };
+
+  // Indicadores de estado de carga
+  if (loading) {
+    return (
+      <div className="container py-5 text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Cargando...</span>
+        </div>
+        <p className="mt-3">Cargando inscripciones...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="container py-5">
+        <div className="alert alert-danger">
+          <h5>Error al cargar datos</h5>
+          <p>{error}</p>
+        </div>
+      </div>
+    );
+  }
+
+  const getUsuarioNombre = (usuarioId: string | number) => {
+    if (!usuarioId) return 'Usuario desconocido';
+    const usuario = usuarios.find(u => u.id && u.id.toString() === usuarioId.toString());
+    return usuario ? usuario.nombre : `Usuario ${usuarioId}`;
+  };
+
+  const getEventoNombre = (eventoId: string | number) => {
+    if (!eventoId) return 'Evento desconocido';
+    const evento = eventos.find(e => e.id && e.id.toString() === eventoId.toString());
+    return evento ? evento.nombre : `Evento ${eventoId}`;
   };
 
   const inscripcionesFiltradas = inscripciones.filter(
-    (insc) =>
-      insc.nombre.toLowerCase().includes(busqueda.toLowerCase()) ||
-      opcionesEventos.find(op => op.value === insc.evento)?.label?.toLowerCase().includes(busqueda.toLowerCase())
+    (insc) => {
+      const nombreUsuario = getUsuarioNombre(insc.usuarioId);
+      const nombreEvento = getEventoNombre(insc.eventoId);
+      return nombreUsuario.toLowerCase().includes(busqueda.toLowerCase()) ||
+             nombreEvento.toLowerCase().includes(busqueda.toLowerCase()) ||
+             insc.estado.toLowerCase().includes(busqueda.toLowerCase());
+    }
   );
 
   return (
@@ -62,17 +73,25 @@ const InscripcionesPage: React.FC = () => {
       <div className="mb-4 d-flex justify-content-between align-items-center">
         <input
           type="text"
-          className="form-control w-75"
-          placeholder="Buscar por nombre o evento..."
+          className="form-control w-50"
+          placeholder="Buscar por usuario, evento o estado..."
           value={busqueda}
           onChange={(e) => setBusqueda(e.target.value)}
         />
-        <Link
-          to="/crearInscripcion"
-          className="btn btn-success ms-3"
-        >
-          Crear Inscripción
-        </Link>
+        <div className="d-flex gap-2">
+          <Link
+            to="/solicitudesDesinscripcion"
+            className="btn btn-warning"
+          >
+            Solicitudes de Desinscripción
+          </Link>
+          <Link
+            to="/crearInscripcion"
+            className="btn btn-success"
+          >
+            Crear Inscripción
+          </Link>
+        </div>
       </div>
 
       <h4 className="fw-semibold mb-3">Lista de Inscripciones</h4>
@@ -85,10 +104,16 @@ const InscripcionesPage: React.FC = () => {
           {inscripcionesFiltradas.map((insc) => (
             <li key={insc.id} className="list-group-item d-flex justify-content-between align-items-center">
               <span>
-                <span className="fw-bold text-dark">{insc.nombre}</span>
+                <span className="fw-bold text-dark">{getUsuarioNombre(insc.usuarioId)}</span>
                 <span className="text-muted">
                   {" "}
-                  &mdash; {opcionesEventos.find(op => op.value === insc.evento)?.label}
+                  &mdash; {getEventoNombre(insc.eventoId)}
+                </span>
+                <span className={`badge ms-2 ${insc.estado === 'confirmada' ? 'bg-success' : insc.estado === 'pendiente' ? 'bg-warning' : 'bg-danger'}`}>
+                  {insc.estado}
+                </span>
+                <span className="text-muted ms-2">
+                  ({insc.fechaInscripcion})
                 </span>
               </span>
               <span>
