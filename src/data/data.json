@@ -1,30 +1,212 @@
 {
   "eventos": [
     {
-      "nombre": "Workshop de Diseño UX/UI",
-      "fecha": "2025-08-05",
-      "descripcion": "Mejora tus habilidades de diseño con herramientas modernas y metodologías ágiles.",
-      "cupos": 30,
-      "instructor": "Ana Martínez",
-      "duracion": "4 horas",
-      "precio": 120,
-      "categoria": "Diseño",
-      "imagen": "https://www.uandes.cl/wp-content/uploads/2024/03/Taller-IA-generacion-de-imagenes.png",
-      "disponibles": 30,
-      "id": "3"
-    },
-    {
-      "id": "1751343562374",
-      "nombre": "Inteligencia artificial",
+      "nombre": "Bootcamp de Inteligencia Artificial Aplicada",
       "fecha": "2026-02-12",
-      "descripcion": "Es un evento de inteligencia artificial",
+      "descripcion": "Descubre como aplicar modelos de IA en problemas reales usando herramientas como TensorFlow y Python.",
       "cupos": 30,
       "instructor": "Xavier Liberona",
-      "duracion": "10 horas",
-      "precio": 13000,
-      "categoria": "Programación",
+      "duracion": "120 horas",
+      "precio": 30000,
+      "categoria": "Tecnología",
       "imagen": "https://www.uandes.cl/wp-content/uploads/2024/03/Taller-IA-generacion-de-imagenes.png",
+      "disponibles": 30,
+      "id": "1751343562374"
+    },
+    {
+      "id": 1751348793612,
+      "nombre": "Programación Orientada a Objeto",
+      "fecha": "2025-08-01",
+      "descripcion": "Aprende a diseñar y desarrollar software utilizando la programación orientada a objeto, ven a explorar los conceptos fundamentales de la POO.",
+      "cupos": 50,
+      "instructor": "Profesor Jego",
+      "duracion": "120",
+      "precio": 20000,
+      "categoria": "Programación",
+      "imagen": "https://0701.static.prezi.com/preview/v2/7y3762oshkorguq4xiihqc64oh6jc3sachvcdoaizecfr3dnitcq_3_0.png",
+      "disponibles": 50
+    },
+    {
+      "id": 1751348917459,
+      "nombre": "Taller de Introducción a Python",
+      "fecha": "2025-07-12",
+      "descripcion": "Aprende las bases de Python desde cero en este taller práctico y dinámico.",
+      "cupos": 25,
+      "instructor": "Profesor Jego",
+      "duracion": "120 horas",
+      "precio": 20000,
+      "categoria": "Programación",
+      "imagen": "https://sanblasdigital.es/wp-content/uploads/python-programming.jpg",
+      "disponibles": 25
+    },
+    {
+      "id": 1751349035667,
+      "nombre": "Diseño de Experiencia de Usuario",
+      "fecha": "2025-08-02",
+      "descripcion": "Aprende a diseñar experiencias de usuario efectivas y atractivas para tus proyectos y productos.",
+      "cupos": 45,
+      "instructor": "Patricio Araya",
+      "duracion": "40 horas",
+      "precio": 5000,
+      "categoria": "Diseño",
+      "imagen": "https://ideafoster.com/wp-content/uploads/2023/08/user_experience.jpg",
+      "disponibles": 45
+    },
+    {
+      "id": 1751349175027,
+      "nombre": " Marketing Digital para Emprendedores",
+      "fecha": "2025-08-02",
+      "descripcion": "Aprende a crear estrategias de marketing digital efectivas para tu negocio y alcanzar tu audiencia objetiva.",
+      "cupos": 60,
+      "instructor": "Ana García",
+      "duracion": "40 horas",
+      "precio": 10000,
+      "categoria": "Marketing",
+      "imagen": "https://lemon.digital/wp-content/uploads/2017/09/06-400x270.png",
+      "disponibles": 60
+    },
+    {
+      "id": 1751349302531,
+      "nombre": "Curso de Estrategias de Marketing Digital",
+      "fecha": "2025-08-29",
+      "descripcion": "Aprende SEO, SEM, y redes sociales para potenciar tu marca online.",
+      "cupos": 40,
+      "instructor": "Ana García",
+      "duracion": "30 horas",
+      "precio": 18000,
+      "categoria": "Marketing",
+      "imagen": "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=500",
+      "disponibles": 40
+    },
+    {
+      "id": 1751349898635,
+      "nombre": "Diseño Web Moderno",
+      "fecha": "2025-09-27",
+      "descripcion": "Aprende a diseñar sitios web atractivos y funcionales combinando herramientas visuales como Figma con HTML y CSS. Ideal para principiantes.",
+      "cupos": 30,
+      "instructor": "Valentina Rosales",
+      "duracion": "70 horas",
+      "precio": 18000,
+      "categoria": "Diseño",
+      "imagen": "https://www.sitew.com/images/blog/articles/guides_users_es/seo_simple/web_de_eventos/imagen_es.png",
       "disponibles": 30
+    },
+    {
+      "id": 1751350130389,
+      "nombre": "Creación de Videojuegos con Unity",
+      "fecha": "2025-11-03",
+      "descripcion": "Aprende a crear tu primer videojuego en 2D con Unity, desde el diseño del entorno hasta la programación básica con C#. No necesitas experiencia previa, ideal para quienes sueñan con desarrollar sus propios juegos.",
+      "cupos": 30,
+      "instructor": "Xavier Liberona",
+      "duracion": "90 horas",
+      "precio": 22000,
+      "categoria": "Tecnología",
+      "imagen": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbsqBvQdBWDh22G9Q8H8QDSmKGtk44vjAvlw&s",
+      "disponibles": 30
+    },
+    {
+      "id": 1751350641531,
+      "nombre": "Desarrollo de Apps Móviles con React Native",
+      "fecha": "2025-07-14",
+      "descripcion": "Diseña y programa aplicaciones móviles híbridas para Android e iOS con React Native.",
+      "cupos": 20,
+      "instructor": "Sabrina Sánchez",
+      "duracion": "20 horas",
+      "precio": 15000,
+      "categoria": "Tecnología",
+      "imagen": "https://beecrowd.com/wp-content/uploads/2024/04/2022-04-12-React-Native.jpg",
+      "disponibles": 20
+    },
+    {
+      "id": 1751350845079,
+      "nombre": "Modelo de Negocios Canvas",
+      "fecha": "2025-08-30",
+      "descripcion": "Diseña tu modelo de negocio paso a paso con la metodología Canvas, ideal para startups.",
+      "cupos": 30,
+      "instructor": "Ana García",
+      "duracion": "40 horas",
+      "precio": 12000,
+      "categoria": "Negocios",
+      "imagen": "https://208f1686.rocketcdn.me/wp-content/uploads/2014/08/modelo-canvas.png",
+      "disponibles": 30
+    },
+    {
+      "id": 1751351000708,
+      "nombre": "Diseño de Interfaces Móviles",
+      "fecha": "2025-11-12",
+      "descripcion": "Aprende a diseñar interfaces limpias y usables para apps móviles usando Figma y principios de UX.",
+      "cupos": 20,
+      "instructor": "Valentina Rosales",
+      "duracion": "90 horas",
+      "precio": 14000,
+      "categoria": "Diseño",
+      "imagen": "https://preview.redd.it/seeking-feedback-on-a-ui-design-for-an-event-planning-app-v0-x83zk3uevx9c1.jpg?width=1080&crop=smart&auto=webp&s=599696ab47c6d73b7eee2c4be6e03de42b4f90c3",
+      "disponibles": 20
+    },
+    {
+      "id": 1751351125956,
+      "nombre": "Edición de Videos para Redes Sociales",
+      "fecha": "2025-10-16",
+      "descripcion": "Crea videos llamativos para TikTok, Instagram y YouTube usando herramientas como CapCut y Premiere.",
+      "cupos": 45,
+      "instructor": "Valentina Rosales",
+      "duracion": "40 horas",
+      "precio": 10000,
+      "categoria": "Diseño",
+      "imagen": "https://static-cse.canva.com/blob/1157749/SocialMediaVideoCreator_lead2x.jpg",
+      "disponibles": 45
+    },
+    {
+      "id": 1751351610965,
+      "nombre": "Análisis de Mercado para Emprendedores",
+      "fecha": "2025-10-07",
+      "descripcion": "Aprende a identificar tu cliente ideal, analizar a la competencia y tomar decisiones estratégicas para tu negocio.",
+      "cupos": 35,
+      "instructor": "Sabrina Sánchez",
+      "duracion": "30 horas",
+      "precio": 11000,
+      "categoria": "Negocios",
+      "imagen": "https://espacioempresa.com/wp-content/uploads/2023/09/estudio-de-mercado-de-una-empresa-organizacion-de-eventos-sociales.jpg",
+      "disponibles": 35
+    },
+    {
+      "id": 1751351725987,
+      "nombre": "Gestión de Equipos y Liderazgo Efectivo",
+      "fecha": "2025-12-05",
+      "descripcion": "Desarrolla habilidades de liderazgo para manjar equipos de trabajo de manera eficiente y motivadora.",
+      "cupos": 25,
+      "instructor": "Ana García",
+      "duracion": "40 horas",
+      "precio": 13000,
+      "categoria": "Negocios",
+      "imagen": "https://static.wixstatic.com/media/e6e6d1_bbfe3592d03a433794e18a295a568572~mv2.jpg/v1/fill/w_568,h_320,al_c,q_80,usm_0.66_1.00_0.01,enc_avif,quality_auto/e6e6d1_bbfe3592d03a433794e18a295a568572~mv2.jpg",
+      "disponibles": 25
+    },
+    {
+      "id": 1751351933364,
+      "nombre": "Desarrollo Backend con Node.js y Express",
+      "fecha": "2025-11-27",
+      "descripcion": "Aprende a crear APIs RESTful usando Node.js y Express, este taller práctico te guiara desde la configuración del entorno hasta la creación de rutas, controladores y conexión con bases de datos.",
+      "cupos": 30,
+      "instructor": "Xavier Liberona",
+      "duracion": "120 horas",
+      "precio": 19000,
+      "categoria": "Programación",
+      "imagen": "https://kinsta.com/wp-content/uploads/2021/03/Nodejs-Architecture.png",
+      "disponibles": 30
+    },
+    {
+      "id": 1751352234196,
+      "nombre": "Scrum y Kanban: Metodologías Ágiles en Proyectos TI",
+      "fecha": "2025-10-15",
+      "descripcion": "Conoce los marcos ágiles más utilizados en la industria TI y cómo aplicarlos a tu proyectos para mejorar productividad.",
+      "cupos": 40,
+      "instructor": "Patricio Araya",
+      "duracion": "90 horas",
+      "precio": 12000,
+      "categoria": "Tecnología",
+      "imagen": "https://wac-cdn.atlassian.com/dam/jcr:756106b1-3949-41fa-9b91-02a3d4a4ebd1/illustrations-spot-hero-Jira-861x813@2x%20(1)-c.png?cdnVersion=2785",
+      "disponibles": 40
     }
   ],
   "inscripciones": [
@@ -39,6 +221,20 @@
       "id": "1751345669082",
       "usuarioId": 1751345663913,
       "eventoId": "1751343562374",
+      "fechaInscripcion": "2025-07-01",
+      "estado": "confirmada"
+    },
+    {
+      "id": "1751353563538",
+      "usuarioId": 1751353555649,
+      "eventoId": 1751348793612,
+      "fechaInscripcion": "2025-07-01",
+      "estado": "confirmada"
+    },
+    {
+      "id": "1751353566297",
+      "usuarioId": 1751353555649,
+      "eventoId": 1751348917459,
       "fechaInscripcion": "2025-07-01",
       "estado": "confirmada"
     }
@@ -70,6 +266,15 @@
       "motivo": "sdasdasd",
       "fechaSolicitud": "2025-07-01",
       "estado": "rechazada"
+    },
+    {
+      "id": "1751353576295",
+      "inscripcionId": "1751353566297",
+      "usuarioId": 1751353555649,
+      "eventoId": 1751348917459,
+      "motivo": "hola",
+      "fechaSolicitud": "2025-07-01",
+      "estado": "pendiente"
     }
   ],
   "usuarios": [
@@ -122,6 +327,14 @@
       "email": "pruebauser1@gmail.com",
       "telefono": "",
       "password": "Mateo1005#",
+      "isAdmin": false
+    },
+    {
+      "id": 1751353555649,
+      "nombre": "am",
+      "email": "am@gmail.com",
+      "telefono": "",
+      "password": "123456",
       "isAdmin": false
     }
   ]
